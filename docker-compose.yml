@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    env_file:
+      - .env
+    command: >
+      sh -c "python manage.py migrate &&      
+             python manage.py runserver 0.0.0.0:8000"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # target: builder
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/:/app/
+    env_file:
+      - frontend/.env.local
+    command: npm run dev

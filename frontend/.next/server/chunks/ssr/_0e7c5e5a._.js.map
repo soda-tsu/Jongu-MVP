@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 23, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/Components/Working/Working.module.css [app-rsc] (css module)"],"sourcesContent":["__turbopack_context__.v({\n});\n"],"names":[],"mappings":"AAAA;AACA"}},
+    {"offset": {"line": 31, "column": 0}, "map": {"version":3,"sources":["file:///app/src/app/Components/Working/Working.jsx"],"sourcesContent":["import React from \"react\";\nimport styles from \"./Working.module.css\";\nimport Image from \"next/image\";\n\nfunction Working() {\n  return (\n    <div className={styles.working}>\n      <h1>I'm still working on this page...</h1>\n      <Image src=\"/work.png\" alt=\"Rabbit working\" width={812} height={812} />\n    </div>\n  );\n}\n\nexport default Working;\n"],"names":[],"mappings":";;;;AAAA;AACA;AACA;;;;;AAEA,SAAS;IACP,qBACE,8OAAC;QAAI,WAAW,0JAAA,CAAA,UAAM,CAAC,OAAO;;0BAC5B,8OAAC;0BAAG;;;;;;0BACJ,8OAAC,6HAAA,CAAA,UAAK;gBAAC,KAAI;gBAAY,KAAI;gBAAiB,OAAO;gBAAK,QAAQ;;;;;;;;;;;;AAGtE;uCAEe","debugId":null}},
+    {"offset": {"line": 77, "column": 0}, "map": {"version":3,"sources":["file:///app/src/app/Books/page.jsx"],"sourcesContent":["import React from \"react\";\nimport Working from \"../Components/Working/Working\";\n\nfunction Books() {\n  return <Working />;\n}\n\nexport default Books;\n"],"names":[],"mappings":";;;;AAAA;AACA;;;;AAEA,SAAS;IACP,qBAAO,8OAAC,+IAAA,CAAA,UAAO;;;;;AACjB;uCAEe","debugId":null}}]
+}

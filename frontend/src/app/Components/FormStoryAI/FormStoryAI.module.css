@@ -1,0 +1,82 @@
+.formStoryAIBOX {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: fit-content;
+  gap: 3.6rem;
+}
+.formStoryAIBOX h2 {
+  font-size: 7rem;
+  text-align: center;
+  font-family: "Dosis", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 2rem;
+  color: #8c442a;
+}
+.formStoryAI {
+  gap: 2.4rem;
+  display: flex;
+  align-items: center;
+}
+
+.formStoryAIContent {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  gap: 2.4rem;
+}
+.flexLabelInput {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.formStoryAIContent label {
+  font-size: 2.4rem;
+  letter-spacing: 0.1rem;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  color: #8c442a;
+}
+.formStoryAIContent input {
+  width: 500px;
+  max-width: 500px;
+  padding: 12px 20px;
+  font-size: 20px;
+  font-family: "Playfair Display", serif;
+  color: #5a3b27;
+  background-color: #fff8e7;
+  border: 2px solid #d9a861;
+  border-radius: 12px;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.formStoryAIContent textarea {
+  padding: 12px 20px;
+  font-size: 20px;
+  font-family: "Playfair Display", serif;
+  color: #5a3b27;
+  background-color: #fff8e7;
+  border: 2px solid #d9a861;
+  border-radius: 12px;
+  height: 300px;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none;
+}
+.buttonCreate {
+  margin-top: 2rem;
+  background-color: #7a3e2c;
+  color: #fff8e7;
+  font-family: "Dosis", sans-serif;
+  font-size: 42px;
+  padding: 12px 36px;
+  border: 3px solid #d9a861;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}

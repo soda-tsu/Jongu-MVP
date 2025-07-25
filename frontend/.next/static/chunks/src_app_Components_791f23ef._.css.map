@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///app/src/app/Components/Working/Working.module.css"],"sourcesContent":[".working {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: fit-content;\n}\n\n.working h1 {\n  width: 600px;\n  font-family: var(--font-gloock);\n  font-size: 6rem;\n  letter-spacing: 0.1em;\n  line-height: 1.5;\n  text-transform: uppercase;\n  color: #8c442a;\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;AAQA","debugId":null}},
+    {"offset": {"line": 21, "column": 0}, "map": {"version":3,"sources":["file:///app/src/app/Components/BookCard/BookCard.module.css"],"sourcesContent":[""],"names":[],"mappings":"","debugId":null}}]
+}

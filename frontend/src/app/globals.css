@@ -1,0 +1,34 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+:root {
+  --font-inter: "Inter", serif;
+  --font-gloock: var(--font-inter);
+}
+
+body {
+  box-sizing: border-box;
+  background-color: #feecc7;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 996;
+}
+main {
+  margin-left: 221px;
+}

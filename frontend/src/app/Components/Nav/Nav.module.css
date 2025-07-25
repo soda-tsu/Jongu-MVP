@@ -1,0 +1,25 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f7e6c5;
+  height: 100vh;
+  position: fixed;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 221px;
+}
+.navContent {
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.navList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 3.6rem;
+}

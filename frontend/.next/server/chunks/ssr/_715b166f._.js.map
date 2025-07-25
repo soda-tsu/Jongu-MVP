@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 23, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/page.module.css [app-rsc] (css module)"],"sourcesContent":["__turbopack_context__.v({\n});\n"],"names":[],"mappings":"AAAA;AACA"}},
+    {"offset": {"line": 31, "column": 0}, "map": {"version":3,"sources":["file:///app/src/app/page.js"],"sourcesContent":["import Image from \"next/image\";\nimport styles from \"./page.module.css\";\n\nfunction Home() {\n  return (\n    <div className={styles.page}>\n      <main className={styles.main}></main>\n    </div>\n  );\n}\n\nexport default Home;\n"],"names":[],"mappings":";;;;AAAA;AACA;;;;AAEA,SAAS;IACP,qBACE,8OAAC;QAAI,WAAW,8HAAA,CAAA,UAAM,CAAC,IAAI;kBACzB,cAAA,8OAAC;YAAK,WAAW,8HAAA,CAAA,UAAM,CAAC,IAAI;;;;;;;;;;;AAGlC;uCAEe","debugId":null}}]
+}
