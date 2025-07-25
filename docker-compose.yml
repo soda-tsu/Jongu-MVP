@@ -20,6 +20,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/:/app/
+      - /app/node_modules  # Preserve node_modules from Docker image
     env_file:
       - frontend/.env.local
     command: npm run dev
