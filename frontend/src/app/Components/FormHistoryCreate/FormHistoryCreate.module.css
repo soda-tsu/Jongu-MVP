@@ -1,9 +1,9 @@
 .formHistoryCreate {
+  margin-top: 2rem;
   background-color: #fff;
   padding: 4.8rem 3.2rem;
   height: fit-content;
-  max-height: 770px;
-  width: 512px;
+  width: 700px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,6 +59,7 @@
   gap: 0.75rem;
   transition: all 0.2s ease;
   cursor: pointer;
+  border: none;
 }
 
 .customButton:hover {
@@ -99,4 +100,41 @@
   width: 100%;
   display: flex;
   align-items: center;
+}
+.genderFlex {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+.mainFlex {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.duoFlex {
+  display: flex;
+  gap: 1.2rem;
+}
+.stepFourFlex {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.textArea {
+  width: 100%;
+  padding: 2rem 1.6rem;
+  border-radius: 1rem;
+  border: 2px solid #e5e7eb;
+  resize: none;
+  font-family: "Work Sans", sans-serif;
+  font-size: 2rem;
+}
+.contador {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: "Work Sans", sans-serif;
+  color: #6b7280;
 }

@@ -40,6 +40,8 @@ function FormHistoryCreate() {
     const [title, setTitle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("Quantos anos tem seu pequeno?");
     const [description, setDescription] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("Isso nos ajuda a escolher o vocabulário e temas perfeitos");
     const [icon, setIcon] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("age");
+    // Opções
+    const [gender, setGender] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         switch(stepForm){
             case 1:
@@ -84,12 +86,12 @@ function FormHistoryCreate() {
                     height: 80
                 }, void 0, false, {
                     fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                    lineNumber: 51,
+                    lineNumber: 54,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 50,
+                lineNumber: 53,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -97,7 +99,7 @@ function FormHistoryCreate() {
                 children: title
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 53,
+                lineNumber: 56,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -105,18 +107,26 @@ function FormHistoryCreate() {
                 children: description
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 54,
+                lineNumber: 57,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+            stepForm === 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                 min: 0,
                 max: 20,
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$Components$2f$FormHistoryCreate$2f$FormHistoryCreate$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].input,
                 type: "number"
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 55,
-                columnNumber: 7
+                lineNumber: 60,
+                columnNumber: 9
+            }, this),
+            stepForm === 2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                setState: setGender,
+                option: "Menino"
+            }, void 0, false, {
+                fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
+                lineNumber: 62,
+                columnNumber: 26
             }, this),
             stepForm === 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$Components$2f$FormHistoryCreate$2f$FormHistoryCreate$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].customButton,
@@ -125,7 +135,7 @@ function FormHistoryCreate() {
                 children: "Continuar"
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 57,
+                lineNumber: 65,
                 columnNumber: 9
             }, this),
             stepForm > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -138,7 +148,7 @@ function FormHistoryCreate() {
                         children: "Voltar"
                     }, void 0, false, {
                         fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                        lineNumber: 67,
+                        lineNumber: 75,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -148,13 +158,13 @@ function FormHistoryCreate() {
                         children: "Continuar"
                     }, void 0, false, {
                         fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                        lineNumber: 74,
+                        lineNumber: 82,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 66,
+                lineNumber: 74,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -166,7 +176,7 @@ function FormHistoryCreate() {
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 83,
+                lineNumber: 91,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -178,18 +188,18 @@ function FormHistoryCreate() {
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$Components$2f$FormHistoryCreate$2f$FormHistoryCreate$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].filledBar
                 }, void 0, false, {
                     fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                    lineNumber: 85,
+                    lineNumber: 93,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-                lineNumber: 84,
+                lineNumber: 92,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/Components/FormHistoryCreate/FormHistoryCreate.jsx",
-        lineNumber: 49,
+        lineNumber: 52,
         columnNumber: 5
     }, this);
 }
