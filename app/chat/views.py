@@ -31,7 +31,7 @@ class ChatView(APIView):
     def post(self, request):
         return Response({"message": "Hello, World!"})
 
-
+# usar o gpt-40-mini para gerar os textos
 class ImageGenerationView(APIView):
     serializer_class = ImageGenerationSerializer
     def post(self, request):
