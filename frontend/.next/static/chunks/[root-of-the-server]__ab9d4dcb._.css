@@ -310,13 +310,9 @@
 body {
   box-sizing: border-box;
   background-color: #feecc7;
-  flex-direction: column;
-  min-height: 100vh;
-  display: flex;
 }
 
 html {
-  height: 100%;
   font-size: 62.5%;
 }
 
@@ -331,25 +327,17 @@ html {
 }
 
 main {
-  background: linear-gradient(to bottom right, #e0e7ff, #f3e8ff, #fce7f3);
-  flex-direction: column;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  width: calc(100% - 250px);
-  margin-left: 250px;
-  display: flex;
+  margin-left: 221px;
 }
 
 
 /* [project]/src/app/Components/Nav/Nav.module.css [app-client] (css) */
 .Nav-module__vqP7ga__nav {
-  background-color: #fff;
+  background-color: #f7e6c5;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 250px;
-  max-width: 250px;
+  max-width: 221px;
   height: 100vh;
   padding: 2rem;
   display: flex;
@@ -359,24 +347,28 @@ main {
   box-shadow: 4px 0 10px #0003;
 }
 
-.Nav-module__vqP7ga__navLogo {
-  margin-bottom: 16rem;
-}
-
 .Nav-module__vqP7ga__navContent {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: fit-content;
+  height: 60%;
   display: flex;
 }
 
 .Nav-module__vqP7ga__navList {
   flex-direction: column;
-  gap: 8.6rem;
+  gap: 3.6rem;
   list-style: none;
   display: flex;
 }
 
 
-/*# sourceMappingURL=%5Broot-of-the-server%5D__9640553a._.css.map*/
+/* [project]/src/app/layout.module.css [app-client] (css) */
+.layout-module__L5FxyW__contentWhitoutNav {
+  background-color: red;
+  width: 100%;
+  height: 100%;
+}
+
+
+/*# sourceMappingURL=%5Broot-of-the-server%5D__ab9d4dcb._.css.map*/

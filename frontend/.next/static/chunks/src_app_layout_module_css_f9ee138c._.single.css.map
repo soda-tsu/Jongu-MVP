@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/layout.module.css"],"sourcesContent":[".contentWhitoutNav {\n  background-color: red;\n  width: 100%;\n  height: 100%;\n}\n"],"names":[],"mappings":"AAAA"}}]
+}

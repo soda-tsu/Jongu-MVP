@@ -13,9 +13,13 @@
 body {
   box-sizing: border-box;
   background-color: #feecc7;
+  flex-direction: column;
+  min-height: 100vh;
+  display: flex;
 }
 
 html {
+  height: 100%;
   font-size: 62.5%;
 }
 
@@ -30,7 +34,14 @@ html {
 }
 
 main {
-  margin-left: 221px;
+  background: linear-gradient(to bottom right, #e0e7ff, #f3e8ff, #fce7f3);
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  display: flex;
 }
 
 /*# sourceMappingURL=src_app_globals_css_f9ee138c._.single.css.map*/
