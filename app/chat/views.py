@@ -97,6 +97,7 @@ class ImageGenerationView(APIView):
                 {"error": "Erro na API do OpenAI", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+            
         except Exception as e:
             return Response(
                 {"error": "Erro interno do servidor", "details": str(e)},
@@ -120,7 +121,29 @@ class GeneratedImagesListView(APIView):
             })
         return Response(response_data)
 
-
+class GetImageByIdView(APIView):
+    def get(self, request, image_id):
+        try:
+            image = GeneratedImage.objects.only('id', 'title', 'author', 'image', 'created_at').get(id=image_id)
+            response_data = {
+                'id': image.id,
+                'title': image.title,
+                'author': image.author,
+                'image_url': request.build_absolute_uri(image.image.url),
+                'created_at': image.created_at
+            }
+            return Response(response_data)
+        except GeneratedImage.DoesNotExist:
+            return Response(
+                {"error": "Imagem não encontrada"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
 class DeleteImageView(APIView):
     def delete(self, request, image_id):
         try:

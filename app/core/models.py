@@ -49,13 +49,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
+    
 class GeneratedImage(models.Model):
     prompt = models.TextField()
     title = models.CharField(max_length=200, blank=True)
     author = models.CharField(max_length=200, blank=True)
     size = models.CharField(max_length=20)
     image = models.ImageField(upload_to='generated_images/')
+    #Preciso limitar isso para 10 itens na lista
+    #images = models.JSONField(default=list, help_text="Lista de textos")
+    #texts = models.JSONField(default=list, help_text="Lista de textos")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
