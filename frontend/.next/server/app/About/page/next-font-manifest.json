@@ -2,10 +2,10 @@
   "pages": {},
   "app": {
     "[project]/src/app/About/page": [
-      "static/media/Iurb6YFw84WUY4NJiBakJLRBjA-s.p.c2db9e86.woff2",
       "static/media/or3nQ6H_1_WfwkMZI_qYFrcdmhHkjko-s.p.be19f591.woff2",
       "static/media/HhyaU5sn9vOmLzloC_WoEoZK-s.p.8e4b7253.woff2",
-      "static/media/gyByhwUxId8gMEwcGFWNOITd-s.p.da1ebef7.woff2"
+      "static/media/gyByhwUxId8gMEwcGFWNOITd-s.p.da1ebef7.woff2",
+      "static/media/Iurb6YFw84WUY4NJiBakJLRBjA-s.p.c2db9e86.woff2"
     ]
   },
   "appUsingSizeAdjust": true,

@@ -1,0 +1,62 @@
+.selectGender {
+  width: 100%;
+  padding: 2rem 1.6rem;
+  border-radius: 1rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.1s ease-in-out;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  color: rgb(31, 41, 55);
+  background-color: transparent;
+  font-family: "Work Sans", sans-serif;
+  letter-spacing: 1px;
+}
+.selectGender:hover {
+  cursor: pointer;
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+}
+.selectGender::first-letter {
+  text-transform: uppercase;
+}
+
+.select {
+  padding: 2rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+  width: 100%;
+  border-radius: 1rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.1s ease-in-out;
+  background-color: transparent;
+}
+.select:hover {
+  cursor: pointer;
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+}
+.select::first-letter {
+  text-transform: uppercase;
+}
+.selectIconFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+.selectTittle {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2.4rem;
+  font-family: "Work Sans", sans-serif;
+  letter-spacing: 1px;
+  color: rgb(31, 41, 55);
+}
+.selectDescription {
+  font-size: 2.4rem;
+  font-weight: 400;
+  font-family: "Dosis", sans-serif;
+}

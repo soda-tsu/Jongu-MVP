@@ -3,11 +3,11 @@ import styles from "./Nav.module.css";
 import Link from "next/link";
 
 function Nav() {
-  const iconSize = 48;
+  const iconSize = 80;
   return (
     <nav className={styles.nav}>
       <div className={styles.navContent}>
-        <Link href="/">
+        <Link href="/" className={styles.navLogo}>
           <Image src="/Logo.png" alt="Jongu Logo" width={181} height={80} />
         </Link>
 
@@ -15,7 +15,7 @@ function Nav() {
           <li>
             <Link href="/Books">
               <Image
-                src="/Read.png"
+                src="/create.svg"
                 alt="ReadPage"
                 width={iconSize}
                 height={iconSize}
@@ -25,18 +25,8 @@ function Nav() {
           <li>
             <Link href="/About">
               <Image
-                src="/About.png"
+                src="/read.svg"
                 alt="AboutPage"
-                width={iconSize}
-                height={iconSize}
-              />
-            </Link>
-          </li>
-          <li>
-            <Link href="/Login">
-              <Image
-                src="/Login.png"
-                alt="Login"
                 width={iconSize}
                 height={iconSize}
               />
