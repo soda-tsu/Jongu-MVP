@@ -138,3 +138,18 @@
   font-family: "Work Sans", sans-serif;
   color: #6b7280;
 }
+.flexTittleAuthor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.contadorInput {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.contadorInput .contador {
+  align-self: flex-end;
+}
