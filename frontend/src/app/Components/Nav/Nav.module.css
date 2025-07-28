@@ -1,17 +1,23 @@
 .nav {
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 2rem;
-  background-color: #f7e6c5;
+  background-color: #fff;
   height: 100vh;
   position: fixed;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 221px;
+  max-width: 250px;
+  top: 0;
+  left: 0;
+}
+.navLogo {
+  margin-bottom: 16rem;
 }
 .navContent {
-  height: 60%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -21,5 +27,5 @@
   display: flex;
   flex-direction: column;
   list-style: none;
-  gap: 3.6rem;
+  gap: 8.6rem;
 }
