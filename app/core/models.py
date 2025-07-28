@@ -65,3 +65,10 @@ class GeneratedImage(models.Model):
         if self.title:
             return f"Imagem {self.id} - {self.title}"
         return f"Imagem {self.id} - {self.prompt[:20]}"
+
+class GeneratedStory(models.Model):
+    generated_text = models.JSONField(default=list, help_text="Texto gerado pelo GPT em formato JSON")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"História {self.id} - {self.generated_text}"

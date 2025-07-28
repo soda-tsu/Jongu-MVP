@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from .serializers import ImageGenerationSerializer, ImageResponseSerializer
-from core.models import GeneratedImage
+from .serializers import ImageGenerationSerializer, ImageResponseSerializer, StoryGenerationSerializer, StoryResponseSerializer
+from core.models import GeneratedImage, GeneratedStory
 import os
 from dotenv import load_dotenv
 import openai
@@ -31,7 +31,6 @@ class ChatView(APIView):
     def post(self, request):
         return Response({"message": "Hello, World!"})
 
-# usar o gpt-40-mini para gerar os textos
 class ImageGenerationView(APIView):
     serializer_class = ImageGenerationSerializer
     def post(self, request):
@@ -155,54 +154,59 @@ class DeleteImageView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        prompt = serializer.validated_data["prompt"]
-        size = serializer.validated_data["size"]
-
-        valid_sizes = ["256x256", "512x512", "1024x1024"]
-        if size not in valid_sizes:
+class StoryGenerationView(APIView):
+    serializer_class = StoryGenerationSerializer
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
             return Response(
-                {
-                    "error": "Tamanho de imagem inválido",
-                    "details": f"O tamanho deve ser um dos seguintes: {', '.join(valid_sizes)}",
-                },
+                {"error": "Dados inválidos", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        
+        age = serializer.validated_data["age"]
+        gender= serializer.validated_data["gender"]
+        interest = serializer.validated_data["interest"]
+        story_type = serializer.validated_data["story_type"]
+        number_of_pages = serializer.validated_data["number_of_pages"]
+        details = serializer.validated_data.get("details", "")
+        protagonistDetails = serializer.validated_data.get("protagonistDetails", "")
+        
+       
+        prompt = f"""Você é um escritor de um livro infantil para {gender}, você está escrevendo uma história {story_type} sobre {interest} para crianças com {age} anos. Esse livro tem {number_of_pages} páginas e cada página deve ter no máximo 20 palavras. Estes são alguns detalhes adicionais para ajudar você na história: {details}. Sobre o personagem principal: ele tem as seguintes características: {protagonistDetails}. Retorne as {number_of_pages} páginas neste formato: ["página1", "página2", ... "pagina{number_of_pages}"]. Responda sempre em português brasileiro."""
+        
         try:
-            response = openai.images.generate(
-                model="dall-e-3",
-                prompt=prompt,
-                size=size,
-                n=1,
-                response_format="url",  
+            response = openai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=10000,
+                temperature=0.7
             )
-
-            image_url = response.data[0].url
-
-            img_response = requests.get(image_url)
-            if img_response.status_code != 200:
-                return Response(
-                    {"error": "Falha ao baixar a imagem gerada"},
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                )
-
-            image_instance = GeneratedImage(prompt=prompt, size=size)
-            image_instance.image.save(
-                f"{prompt}.png",
-                ContentFile(img_response.content)
+            
+            generated_text = response.choices[0].message.content
+            
+            import json
+            try:
+                texto_json = json.loads(generated_text)
+            except json.JSONDecodeError:
+                texto_json = {"text": [generated_text]}
+            
+            story_instance = GeneratedStory(
+                generated_text=texto_json
             )
-            image_instance.save()
-
-
-            response_serializer = ImageResponseSerializer(data={"image_url": image_url})
-            response_serializer.is_valid(raise_exception=True)
-
-
-            return Response({
-                "message": "Imagem gerada e salva com sucesso",
-                "local_image_url": image_instance.image.url
-            })
-
+            story_instance.save()
+            
+            response_data = {
+                "id": story_instance.id,
+                "text": texto_json,
+                "message": "História gerada e salva com sucesso"
+            }
+            
+            return Response(response_data, status=status.HTTP_201_CREATED)
+            
         except OpenAIError as e:
             return Response(
                 {"error": "Erro na API do OpenAI", "details": str(e)},
