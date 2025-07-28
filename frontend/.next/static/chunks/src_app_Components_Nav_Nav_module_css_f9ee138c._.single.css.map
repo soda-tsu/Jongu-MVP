@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/Components/Nav/Nav.module.css"],"sourcesContent":[".nav {\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: center;\n  padding: 2rem;\n  background-color: #f7e6c5;\n  height: 100vh;\n  position: fixed;\n  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);\n  max-width: 221px;\n}\n.navContent {\n  height: 60%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n}\n.navList {\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n  gap: 3.6rem;\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;AAYA;;;;;;;;AAOA"}}]
-}
