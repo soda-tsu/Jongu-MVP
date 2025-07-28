@@ -13,11 +13,17 @@ function FormHistoryCreate() {
   );
   const [icon, setIcon] = useState("age");
 
+  // TODO: Enviar todas estas informações de Opções para o endpoint de criação de texto
+  // TODO: Colocar valor default para elas na hora de enviar caso seja vazio (ou pode colocar no inicial)
   // Opções
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [like, setLike] = useState("");
   const [historyTipe, setHistoryTipe] = useState("");
+  const [pages, setPages] = useState("");
+  const [tittleHistory, setTittleHistory] = useState("");
+  const [authorHistory, setAuthorHistory] = useState("");
+  const [characterDetail, setCharacterDetail] = useState("");
   const [lesson, setLesson] = useState("");
 
   useEffect(() => {
@@ -27,7 +33,7 @@ function FormHistoryCreate() {
         setDescription(
           "Isso nos ajuda a escolher o vocabulário e temas perfeitos"
         );
-        setIcon("age");
+        setIcon("family");
         break;
       case 2:
         setTitle("Qual público?");
@@ -45,6 +51,27 @@ function FormHistoryCreate() {
         setIcon("type");
         break;
       case 5:
+        setTitle("Quantas páginas são?");
+        setDescription(
+          "Usaremos o número de páginas para o número de ilustrações e o tamanho da história"
+        );
+        setIcon("book");
+        break;
+
+      case 6:
+        setTitle("Detalhes do personagem");
+        setDescription(
+          "Descreva em detalhes o protagonista, isto ajuda a manter a fidelidade entre as ilustrações"
+        );
+        setIcon("character");
+        break;
+
+      case 7:
+        setTitle("Título da história e autor");
+        setDescription("Insira o título e autor da história");
+        setIcon("writer");
+        break;
+      case 8:
         setTitle("Qual lição/assunto você quer ensinar?");
         setDescription("Que mensagem importante eles devem aprender?");
         setIcon("ensinar");
@@ -168,19 +195,94 @@ function FormHistoryCreate() {
         </div>
       )}
       {stepForm === 5 && (
-        <p className={styles.contador}>{lesson.length} / 200</p>
-      )}
-      {stepForm === 5 && (
-        <textarea
-          maxLength={200}
-          minLength={10}
-          required
-          value={lesson}
-          onChange={(e) => setLesson(e.target.value)}
-          className={styles.textArea}
-          placeholder="Conte mais sobre o que quer ensinar"
-          rows={5}
+        <input
+          value={pages}
+          min={3}
+          max={10}
+          className={styles.input}
+          type="number"
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              const numeric = parseInt(value, 10);
+              if (value === "" || (numeric >= 3 && numeric <= 10)) {
+                setPages(value);
+              }
+            }
+          }}
+          placeholder="Digite apenas números de 3 a 10"
+          onKeyDown={(e) => {
+            const allowedKeys = [
+              "Backspace",
+              "Delete",
+              "ArrowLeft",
+              "ArrowRight",
+              "Tab",
+            ];
+            if (!/^[0-9]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
+      )}
+
+      {stepForm === 6 && (
+        <div className={styles.contadorInput}>
+          <p className={styles.contador}>{characterDetail.length} / 200</p>
+          <textarea
+            maxLength={200}
+            minLength={10}
+            required
+            value={characterDetail}
+            onChange={(e) => setCharacterDetail(e.target.value)}
+            className={styles.textArea}
+            placeholder="Alice era uma menina alegre que estava sempre sorrindo, seus olhos brilhavam com alegria e seus cabelos loiros caíam sobre seus ombros..."
+            rows={5}
+          />
+        </div>
+      )}
+
+      {stepForm === 7 && (
+        <div className={styles.flexTittleAuthor}>
+          <div className={styles.contadorInput}>
+            <p className={styles.contador}>{tittleHistory.length} / 20</p>
+            <input
+              maxLength={20}
+              value={tittleHistory}
+              className={styles.input}
+              type="text"
+              onChange={(e) => setTittleHistory(e.target.value)}
+              placeholder="Título da história"
+            />
+          </div>
+          <div className={styles.contadorInput}>
+            <p className={styles.contador}>{authorHistory.length} / 20</p>
+            <input
+              maxLength={20}
+              value={authorHistory}
+              className={styles.input}
+              type="text"
+              onChange={(e) => setAuthorHistory(e.target.value)}
+              placeholder="Autor da história"
+            />
+          </div>
+        </div>
+      )}
+
+      {stepForm === 8 && (
+        <div className={styles.contadorInput}>
+          <p className={styles.contador}>{lesson.length} / 200</p>
+          <textarea
+            maxLength={200}
+            minLength={10}
+            required
+            value={lesson}
+            onChange={(e) => setLesson(e.target.value)}
+            className={styles.textArea}
+            placeholder="Conte mais sobre o que quer ensinar"
+            rows={5}
+          />
+        </div>
       )}
       {/* Botões */}
       {stepForm === 1 &&
@@ -201,7 +303,7 @@ function FormHistoryCreate() {
             Continuar
           </button>
         ))}
-      {stepForm > 1 && stepForm < 5 && (
+      {stepForm > 1 && stepForm < 8 && (
         <div className={styles.flexButton}>
           <button
             onClick={() => setStepForm(stepForm - 1)}
@@ -212,7 +314,10 @@ function FormHistoryCreate() {
           </button>
           {(stepForm === 2 && gender === "") ||
           (stepForm === 3 && like === "") ||
-          (stepForm === 4 && historyTipe === "") ? (
+          (stepForm === 4 && historyTipe === "") ||
+          (stepForm === 5 && pages === "") ||
+          (stepForm === 6 && characterDetail === "") ||
+          (stepForm === 7 && tittleHistory === "") ? (
             <button
               onClick={() => setStepForm(stepForm + 1)}
               className={styles.customButton}
@@ -231,7 +336,7 @@ function FormHistoryCreate() {
           )}
         </div>
       )}
-      {stepForm === 5 && (
+      {stepForm === 8 && (
         <div className={styles.flexButton}>
           <button
             onClick={() => setStepForm(stepForm - 1)}
@@ -245,10 +350,10 @@ function FormHistoryCreate() {
           </button>
         </div>
       )}
-      <p className={styles.stepFormDescription}>Passo {stepForm} de 5</p>
+      <p className={styles.stepFormDescription}>Passo {stepForm} de 8</p>
       <div className={styles.bar}>
         <div
-          style={{ width: `${stepForm * 20}%` }}
+          style={{ width: `${stepForm * 12.5}%` }}
           className={styles.filledBar}
         ></div>
       </div>
