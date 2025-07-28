@@ -19,8 +19,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/:/app/
-      - /app/node_modules  # Preserve node_modules from Docker image
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/public:/app/public
+      - ./frontend/src:/app/src
+      - /app/node_modules
+      - /app/.next
     env_file:
       - frontend/.env.local
     command: npm run dev
