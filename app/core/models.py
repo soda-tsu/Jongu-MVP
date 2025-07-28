@@ -50,25 +50,69 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
-class GeneratedImage(models.Model):
-    prompt = models.TextField()
-    title = models.CharField(max_length=200, blank=True)
-    author = models.CharField(max_length=200, blank=True)
-    size = models.CharField(max_length=20)
-    image = models.ImageField(upload_to='generated_images/')
-    #Preciso limitar isso para 10 itens na lista
-    #images = models.JSONField(default=list, help_text="Lista de textos")
-    #texts = models.JSONField(default=list, help_text="Lista de textos")
-    created_at = models.DateTimeField(auto_now_add=True)
+from django.db import models
+
+
+class Interest(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
-        if self.title:
-            return f"Imagem {self.id} - {self.title}"
-        return f"Imagem {self.id} - {self.prompt[:20]}"
+        return self.name
 
-class GeneratedStory(models.Model):
-    generated_text = models.JSONField(default=list, help_text="Texto gerado pelo GPT em formato JSON")
-    created_at = models.DateTimeField(auto_now_add=True)
-    
+
+class StoryType(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255)
+
     def __str__(self):
-        return f"História {self.id} - {self.generated_text}"
+        return self.name
+
+
+class Gender(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Request(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    age = models.IntegerField(null=True, blank=True)
+    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
+    interest = models.ForeignKey(Interest, on_delete=models.CASCADE)
+    story_type = models.ForeignKey(StoryType, on_delete=models.CASCADE)
+    number_of_pages = models.IntegerField()
+    story_description = models.CharField(max_length=255, null=True, blank=True)
+    protagonist_description = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"Request #{self.id}"
+
+
+class TextStory(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(null=True, blank=True)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"TextStory #{self.id}"
+
+
+class Page(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(null=True, blank=True)
+    text_story = models.ForeignKey(TextStory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Page #{self.id}"
+
+
+class Image(models.Model):
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    url = models.CharField(max_length=255)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Image #{self.id}"
