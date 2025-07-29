@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from core.models import Gender, Interest, StoryType
 
 class ImageGenerationSerializer(serializers.Serializer):
     
@@ -39,34 +40,48 @@ class StoryGenerationSerializer(serializers.Serializer):
     age = serializers.IntegerField(
         min_value=1,
         max_value=18,
-        help_text="Idade da criança (1-18 anos)"
+        help_text="Idade da criança (1-18 anos)",
+        required=True
     )
-    gender = serializers.CharField(
-        max_length=20,
-        help_text="Sexo da criança (ex: menino, menina)"
+    gender = serializers.PrimaryKeyRelatedField(
+        queryset=Gender.objects.all(),
+        help_text="ID do gênero (masculino, feminino, etc.)"
     )
-    interest = serializers.CharField(
-        max_length=50,
-        help_text="Gosto ou interesse da criança"
+    interests = serializers.PrimaryKeyRelatedField(
+        queryset=Interest.objects.all(),
+        help_text="ID do interesse principal da criança"
     )
-    story_type = serializers.CharField(
-        max_length=50,
-        help_text="Tipo de história (ex: aventura, fantasia, educativa)"
+    type_of_story = serializers.PrimaryKeyRelatedField(
+        queryset=StoryType.objects.all(),
+        help_text="ID do tipo de história (aventura, fantasia, etc.)"
     )
     number_of_pages = serializers.IntegerField(
         min_value=1,
         max_value=10,
-        help_text="Número de páginas (1-10)"
+        help_text="Número de páginas (1-10)",
+        required=True
     )
-    details = serializers.CharField(
+    description = serializers.CharField(
         required=False,
         allow_blank=True,
         max_length=200,
         help_text="Detalhes adicionais para a história"
     )
-    protagonistDetails = serializers.CharField(
+    protagonist_description = serializers.CharField(
         max_length=200,
-        help_text="Detalhes adicionais para o personagem principal"
+        help_text="Detalhes adicionais para o personagem principal",
+        required=False,
+        allow_blank=True
+    )
+    title = serializers.CharField(
+        max_length=255,
+        help_text="Título da história",
+        required=True
+    )
+    author = serializers.CharField(
+        max_length=255,
+        help_text="Nome do autor da história",
+        required=True
     )
     
     # def validate_age(self, value):
@@ -74,37 +89,57 @@ class StoryGenerationSerializer(serializers.Serializer):
     #         raise serializers.ValidationError("A idade não pode ser vazio")
     #     return value.strip()
     
-    def validate_gender(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("O sexo não pode ser vazio")
-        return value.strip()
+    # def validate_gender(self, value):
+    #     if not value.strip():
+    #         raise serializers.ValidationError("O sexo não pode ser vazio")
+    #     return value.strip()
     
-    def validate_interest(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("O gosto não pode ser vazio")
-        return value.strip()
+    # def validate_interest(self, value):
+    #     if not value.strip():
+    #         raise serializers.ValidationError("O gosto não pode ser vazio")
+    #     return value.strip()
     
-    def validate_story_type(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("O tipo de história não pode ser vazio")
-        return value.strip()
+    # def validate_story_type(self, value):
+    #     if not value.strip():
+    #         raise serializers.ValidationError("O tipo de história não pode ser vazio")
+    #     return value.strip()
     
     # def validate_number_of_pages(self, value):
     #     if not value.strip():
     #         raise serializers.ValidationError("O número de páginas não pode ser vazio")
     #     return value.strip()
     
-    def validate_details(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("O detalhe não pode ser vazio")
-        return value.strip()
+    # def validate_details(self, value):
+    #     if not value.strip():
+    #         raise serializers.ValidationError("O detalhe não pode ser vazio")
+    #     return value.strip()
     
-    def validate_protagonistDetails(self, value):
-        if not value.strip():
-            raise serializers.ValidationError("O detalhe do personagem principal não pode ser vazio")
-        return value.strip()
+    # def validate_protagonistDetails(self, value):
+    #     if not value.strip():
+    #         raise serializers.ValidationError("O detalhe do personagem principal não pode ser vazio")
+    #     return value.strip()
 
 class StoryResponseSerializer(serializers.Serializer):
-    id = serializers.IntegerField(help_text="ID da história gerada")
-    text = serializers.JSONField(help_text="Texto da história em formato JSON")
+    pages = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="Lista de textos das páginas da história"
+    )
     message = serializers.CharField(help_text="Mensagem de sucesso")
+
+
+class UpdateStoryPagesSerializer(serializers.Serializer):
+    title_id = serializers.IntegerField(
+        help_text="ID do título da história a ser atualizada",
+        required=True
+    )
+    pages = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="Lista de textos atualizados das páginas da história",
+        required=True
+    )
+
+    def validate_title_id(self, value):
+        from core.models import Titles as TitleModel
+        if not TitleModel.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Título não encontrado com o ID fornecido")
+        return value

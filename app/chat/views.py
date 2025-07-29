@@ -4,13 +4,20 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from .serializers import ImageGenerationSerializer, ImageResponseSerializer, StoryGenerationSerializer, StoryResponseSerializer
-# from core.models import GeneratedImage, GeneratedStory
+from .serializers import (
+    ImageGenerationSerializer, 
+    ImageResponseSerializer, 
+    StoryGenerationSerializer, 
+    StoryResponseSerializer,
+    UpdateStoryPagesSerializer
+)
+from core.models import Gender, Interest, StoryType, Request, Titles as TitleModel, Pages
 import os
 from dotenv import load_dotenv
 import openai
 from openai import OpenAIError
 import requests
+import json
 from django.core.files.base import ContentFile
 
 
@@ -166,17 +173,20 @@ class StoryGenerationView(APIView):
             )
         
         age = serializer.validated_data["age"]
-        gender= serializer.validated_data["gender"]
-        interest = serializer.validated_data["interest"]
-        story_type = serializer.validated_data["story_type"]
+        gender = serializer.validated_data["gender"]
+        interests = serializer.validated_data["interests"]
+        type_of_story = serializer.validated_data["type_of_story"]
         number_of_pages = serializer.validated_data["number_of_pages"]
-        details = serializer.validated_data.get("details", "")
-        protagonistDetails = serializer.validated_data.get("protagonistDetails", "")
+        description = serializer.validated_data.get("description", "")
+        protagonist_description = serializer.validated_data.get("protagonist_description", "")
+        title = serializer.validated_data["title"]
+        author = serializer.validated_data["author"]
         
-       
-        prompt = f"""Você é um escritor de um livro infantil para {gender}, você está escrevendo uma história {story_type} sobre {interest} para crianças com {age} anos. Esse livro tem {number_of_pages} páginas e cada página deve ter no máximo 20 palavras. Estes são alguns detalhes adicionais para ajudar você na história: {details}. Sobre o personagem principal: ele tem as seguintes características: {protagonistDetails}. Retorne as {number_of_pages} páginas neste formato: ["página1", "página2", ... "pagina{number_of_pages}"]. Responda sempre em português brasileiro."""
-        
-        try:
+        try: 
+            prompt = f"""Você é um escritor de um livro infantil para {gender.name}, você está escrevendo uma história {type_of_story.name} sobre {interests.name} para crianças com {age} anos. Esse livro tem {number_of_pages} páginas e cada página deve ter no máximo 20 palavras. Estes são alguns detalhes adicionais para ajudar você na história: {description}. Sobre o personagem principal: ele tem as seguintes características: {protagonist_description}. Retorne as {number_of_pages} páginas neste formato: ["página1", "página2", ... "pagina{number_of_pages}"]. Responda sempre em português brasileiro."""
+            
+            print(prompt)
+            
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
@@ -188,20 +198,39 @@ class StoryGenerationView(APIView):
             
             generated_text = response.choices[0].message.content
             
-            import json
             try:
-                texto_json = json.loads(generated_text)
+                pages_list = json.loads(generated_text)
+                if not isinstance(pages_list, list):
+                    pages_list = [generated_text]
             except json.JSONDecodeError:
-                texto_json = {"text": [generated_text]}
-            
-            story_instance = GeneratedStory(
-                generated_text=texto_json
+                pages_list = [line.strip() for line in generated_text.split('\n') if line.strip()]
+                if len(pages_list) != number_of_pages:
+                    pages_list = [generated_text]
+
+            request_instance = Request.objects.create(
+                age=age,
+                gender=gender,
+                interest=interests,  # Note que o campo no modelo ainda é 'interest' (singular)
+                story_type=type_of_story,
+                number_of_pages=number_of_pages,
+                story_description=description,
+                protagonist_description=protagonist_description,
+                author=author
             )
-            story_instance.save()
+            
+            title_instance = TitleModel.objects.create(
+                title=title,
+                request=request_instance
+            )
+            
+            for i, page_content in enumerate(pages_list, 1):
+                Pages.objects.create(
+                    page=page_content,
+                    title=title_instance
+                )
             
             response_data = {
-                "id": story_instance.id,
-                "text": texto_json,
+                "pages": pages_list,
                 "message": "História gerada e salva com sucesso"
             }
             
@@ -215,5 +244,56 @@ class StoryGenerationView(APIView):
         except Exception as e:
             return Response(
                 {"error": "Erro interno do servidor", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+            
+class UpdateStoryGenerationView(APIView):
+    serializer_class = UpdateStoryPagesSerializer
+    
+    def put(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {"error": "Dados inválidos", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        title_id = serializer.validated_data["title_id"]
+        updated_pages = serializer.validated_data["pages"]
+        
+        try:
+            try:
+                title = TitleModel.objects.get(id=title_id)
+            except TitleModel.DoesNotExist:
+                return Response(
+                    {"error": f"Nenhuma história encontrada com o ID {title_id}"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            existing_pages = list(title.pages_set.all().order_by('id'))
+            
+            for i, page_text in enumerate(updated_pages):
+                if i < len(existing_pages):
+                    existing_pages[i].page = page_text
+                    existing_pages[i].save()
+                else:
+                    Pages.objects.create(
+                        page=page_text,
+                        title=title
+                    )
+            
+            if len(updated_pages) < len(existing_pages):
+                for page in existing_pages[len(updated_pages):]:
+                    page.delete()
+
+            title.save()
+            
+            return Response({
+                "message": "História atualizada com sucesso"
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response(
+                {"error": "Erro ao atualizar a história", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
