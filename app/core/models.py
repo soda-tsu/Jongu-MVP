@@ -86,33 +86,34 @@ class Request(models.Model):
     number_of_pages = models.IntegerField()
     story_description = models.CharField(max_length=255, null=True, blank=True)
     protagonist_description = models.CharField(max_length=255, null=True, blank=True)
+    author = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f"Request #{self.id}"
 
 
-class TextStory(models.Model):
+class Titles(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
-    content = models.TextField(null=True, blank=True)
+    title = models.TextField(null=True, blank=True)
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"TextStory #{self.id}"
+        return f"Titles #{self.id}"
 
 
-class Page(models.Model):
+class Pages(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
-    content = models.TextField(null=True, blank=True)
-    text_story = models.ForeignKey(TextStory, on_delete=models.CASCADE)
+    page = models.TextField(null=True, blank=True)
+    title = models.ForeignKey(Titles, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Page #{self.id}"
+        return f"Pages #{self.id}"
 
 
 class Image(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=255)
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    page = models.ForeignKey(Pages, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Image #{self.id}"
