@@ -11,6 +11,7 @@
   background-color: transparent;
   font-family: "Work Sans", sans-serif;
   letter-spacing: 1px;
+  user-select: none;
 }
 .selectGender:hover {
   cursor: pointer;
@@ -32,6 +33,7 @@
   border: 2px solid #e5e7eb;
   transition: all 0.1s ease-in-out;
   background-color: transparent;
+  user-select: none;
 }
 .select:hover {
   cursor: pointer;
