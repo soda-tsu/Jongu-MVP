@@ -62,7 +62,7 @@
 .text {
   padding: 0rem 0rem 0rem 4rem;
   font-family: var(--font-comic-neue);
-  font-size: 4.2rem;
+  font-size: 3rem;
   color: #212529;
   line-height: 200%;
 }
@@ -111,4 +111,12 @@
   color: #564983;
   font-size: 2rem;
   cursor: pointer;
+}
+.inputEdit {
+  resize: none;
+  padding: 0rem 0rem 0rem 4rem;
+  font-family: var(--font-comic-neue);
+  font-size: 3rem;
+  color: #212529;
+  line-height: 200%;
 }

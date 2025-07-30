@@ -9,7 +9,7 @@ import BookPreview from "../BookPreview/BookPreview";
 
 function FormHistoryCreate() {
   // TODO: Voltar isso para 1
-  const [stepForm, setStepForm] = useState(10);
+  const [stepForm, setStepForm] = useState(1);
   const [title, setTitle] = useState("Quantos anos tem seu pequeno?");
   const [description, setDescription] = useState(
     "Isso nos ajuda a escolher o vocabulário e temas perfeitos"
@@ -32,23 +32,11 @@ function FormHistoryCreate() {
   const [characterDetail, setCharacterDetail] = useState("");
   const [lesson, setLesson] = useState("");
   // TODO: Jogar para null esse depois
-  const [editPayload, setEditPayload] = useState({
-    pages: [
-      "Era uma vez uma princesa loira chamada Sofia. Ela adorava ajudar no reino e aprender coisas novas.",
-      "Sofia trabalhava no jardim, cuidando das flores. As borboletas dançavam e as aves cantavam felizes ao seu redor.",
-      "Um dia, Sofia encontrou um mapa mágico. Juntas, ela e suas amigas partiram em uma aventura incrível pelo reino!",
-    ],
-  });
+  const [editPayload, setEditPayload] = useState(null);
 
   // TODO: Jogar para null esse depois
   // Variável para segurar o data retornado
-  const [data, setData] = useState({
-    pages: [
-      "Era uma vez uma princesa loira chamada Sofia. Ela adorava ajudar no reino e aprender coisas novas.",
-      "Sofia trabalhava no jardim, cuidando das flores. As borboletas dançavam e as aves cantavam felizes ao seu redor.",
-      "Um dia, Sofia encontrou um mapa mágico. Juntas, ela e suas amigas partiram em uma aventura incrível pelo reino!",
-    ],
-  });
+  const [data, setData] = useState(null);
 
   async function handleSubmit() {
     setStepForm(9);
@@ -86,7 +74,7 @@ function FormHistoryCreate() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title_id: 1,
+          title_id: data.title_id,
           pages: editPayload,
         }),
       });
@@ -542,7 +530,7 @@ function FormHistoryCreate() {
       {stepForm === 10 && (
         <BookPreview
           data={data}
-          setEditPayload={setEditPayload && setEditPayload}
+          setEditPayload={setEditPayload}
           editPayload={editPayload}
         />
       )}
