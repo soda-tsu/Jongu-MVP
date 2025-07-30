@@ -1,6 +1,7 @@
 .bookPreview {
-  margin-top: 2.4rem;
+  margin: 2.4rem auto 0 auto;
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
+  width: 80%;
 }
