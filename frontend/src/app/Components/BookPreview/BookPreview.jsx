@@ -11,8 +11,6 @@ function BookPreview({ data, setEditPayload, editPayload }) {
   const [loader, setLoader] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  console.log(data.title_id);
-
   const handleGenerateImages = async () => {
     setLoader(true);
     const response = await fetch(

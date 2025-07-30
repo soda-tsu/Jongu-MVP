@@ -18,10 +18,6 @@ function page({ params }) {
     fetchBooks();
   }, []);
 
-  useEffect(() => {
-    console.log(book);
-  }, [book]);
-
   return (
     <div className="BookReading">
       {book && (

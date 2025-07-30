@@ -30,10 +30,9 @@ function FormHistoryCreate() {
   const [authorHistory, setAuthorHistory] = useState("");
   const [characterDetail, setCharacterDetail] = useState("");
   const [lesson, setLesson] = useState("");
-  // TODO: Jogar para null esse depois
+
   const [editPayload, setEditPayload] = useState(null);
 
-  // TODO: Jogar para null esse depois
   // Variável para segurar o data retornado
   const [data, setData] = useState(null);
 
@@ -57,7 +56,7 @@ function FormHistoryCreate() {
       }),
     });
     const data = await response.json();
-    // TODO: A etapa 10 no caso é a renderização do texto para edição, está dentro da chave pages de data uma lista com o texto de cada página
+
     if (data) {
       setStepForm(10);
       setData(data);
