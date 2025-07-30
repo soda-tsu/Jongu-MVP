@@ -20,12 +20,14 @@ function StoryPage({
   useEffect(() => {
     if (editReady) {
       if (setEditPayload) {
-        console.log("entrei aqui", editPayload);
-        setEditPayload((prev) => ({
-          pages: prev.pages.map((item, i) =>
-            i === pageIndex - 1 ? textValue : item
-          ),
-        }));
+        setEditPayload((prev) =>
+          prev.map((item, i) => {
+            if (i === pageIndex - 1) {
+              return textValue;
+            }
+            return item;
+          })
+        );
       }
     }
   }, [editReady, setEditPayload]);
@@ -37,8 +39,12 @@ function StoryPage({
       </div>
       <div className={styles.textContainer}>
         {text && edit ? (
-          <input
-            type="text"
+          <textarea
+            className={styles.inputEdit}
+            rows={5}
+            minLength={10}
+            maxLength={200}
+            placeholder="No mínimo 10 palavras e no máximo 200 palavras"
             value={textValue}
             onChange={(e) => {
               setTextValue(e.target.value);
@@ -48,7 +54,7 @@ function StoryPage({
           <p className={styles.text}>{textValue}</p>
         )}
       </div>
-      {!edit && (
+      {!edit && editMode && (
         <button
           onClick={() => {
             setEdit(true);
@@ -60,7 +66,7 @@ function StoryPage({
           <p>Editar</p>
         </button>
       )}
-      {edit && (
+      {edit && editMode && (
         <button
           onClick={() => {
             setEdit(false);
