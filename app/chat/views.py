@@ -9,7 +9,9 @@ from .serializers import (
     ImageResponseSerializer, 
     StoryGenerationSerializer, 
     StoryResponseSerializer,
-    UpdateStoryPagesSerializer
+    UpdateStoryPagesSerializer,
+    MultipleImageGenerationSerializer,
+    MultipleImageResponseSerializer
 )
 from core.models import Gender, Interest, StoryType, Request, Titles as TitleModel, Pages
 import os
@@ -102,6 +104,110 @@ class ImageGenerationView(APIView):
             return Response(
                 {"error": "Erro na API do OpenAI", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+            
+        except Exception as e:
+            return Response(
+                {"error": "Erro interno do servidor", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class MultipleImageGenerationView(APIView):
+    serializer_class = MultipleImageGenerationSerializer
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {"error": "Dados inválidos", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        title_id = serializer.validated_data["title_id"]
+        size = serializer.validated_data["size"]
+        
+        try:
+            title = TitleModel.objects.select_related('request__gender', 'request__interest', 'request__story_type').get(id=title_id)
+            request_data = title.request
+            
+            pages = Pages.objects.filter(title=title).order_by('id')
+            
+            if not pages.exists():
+                return Response(
+                    {"error": "Nenhuma página encontrada para este título"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            
+            generated_images = []
+            
+            for index, page in enumerate(pages, 1):
+                prompt = f"""Atenção proibido: não inclua nenhuma palavra, letra, número, sinal, logotipo ou marca d’água na imagem. 
+                O que você deve fazer: Você é um ilustrador infantil para o público de {request_data.gender.name}s, você está ilustrando uma história {request_data.story_type.name} sobre {request_data.interest.name} para crianças com {request_data.age} anos. Use essas referências para gerar a imagem: {page.page}. É importante que o personagem principal tenha os seguintes detalhes: {request_data.protagonist_description} e que a ilustração seja condizente com as referências que eu te passei.Não quero nenhuma palavra, símbolo ou letra na imagem. A imagem deve ser inteiramente ilustrativa. Ilustre com realismo infantil, sem elementos fantásticos ou inventados. Todos os animais no cenário devem ser fiéis à realidade. Por exemplo, animais terrestres não devem ter asas. O estilo da imagem deve ser sempre o mesmo: ilustração vetorial infantil, com traços suaves, colorido vibrante e fundo limpo. Estilo semelhante a ilustrações infantis modernas, com aparência simples e amigável. Apenas um estilo limpo, vetorial e infantil. Todos os personagens e cenários devem seguir esse estilo fixo, sem variação. """
+                
+                try:
+                    response = openai.images.generate(
+                        model="dall-e-3",
+                        prompt=prompt,
+                        size=size,
+                        n=1,
+                        response_format="url",
+                    )
+                    
+                    image_url = response.data[0].url
+                    
+                    img_response = requests.get(image_url)
+                    if img_response.status_code == 200:
+                        from core.models import Image
+                        image_instance = Image(
+                            url=image_url,
+                            page=page
+                        )
+                        image_instance.save()
+                        
+                        generated_images.append({
+                            "page_id": page.id,
+                            "page_index": index,
+                            "page_content": page.page,
+                            "image_url": image_url,
+                            "image_id": image_instance.id,
+                            "prompt_used": prompt
+                        })
+                    else:
+                        generated_images.append({
+                            "page_id": page.id,
+                            "page_index": index,
+                            "page_content": page.page,
+                            "error": "Falha ao baixar a imagem gerada",
+                            "prompt_used": prompt
+                        })
+                        
+                except OpenAIError as e:
+                    generated_images.append({
+                        "page_id": page.id,
+                        "page_index": index,
+                        "page_content": page.page,
+                        "error": f"Erro na API do OpenAI: {str(e)}",
+                        "prompt_used": prompt
+                    })
+                    
+            response_data = {
+                "images": generated_images,
+                "message": f"Processo de geração concluído. {len([img for img in generated_images if 'image_url' in img])} imagens geradas com sucesso de {len(generated_images)} páginas.",
+                "total_images": len([img for img in generated_images if 'image_url' in img]),
+                "title_info": {
+                    "title_id": title.id,
+                    "title": title.title,
+                    "total_pages": len(pages)
+                }
+            }
+            
+            return Response(response_data, status=status.HTTP_200_OK)
+            
+        except TitleModel.DoesNotExist:
+            return Response(
+                {"error": "Título não encontrado com o ID fornecido"},
+                status=status.HTTP_404_NOT_FOUND,
             )
             
         except Exception as e:
