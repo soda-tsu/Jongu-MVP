@@ -1,0 +1,15 @@
+.imagePlaceholder {
+  background-color: #4b3f72;
+  height: 500px;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.textPlaceholder {
+  font-size: 2rem;
+  text-align: center;
+  font-family: var(--font-inter);
+  line-height: 160%;
+  color: #fff;
+}
