@@ -191,3 +191,29 @@ class StoryListSerializer(serializers.ModelSerializer):
             if first_image:
                 return first_image.url
         return None
+
+
+class GetStoriesByIDSerializer(serializers.ModelSerializer):
+    Title = serializers.CharField(source='title')
+    Author = serializers.CharField(source='request.author')
+    Image = serializers.SerializerMethodField()
+    Pages = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TitleModel
+        fields = ['Title', 'Author', 'Image', 'Pages']
+
+    def get_Image(self, obj):
+        """Retorna uma lista com todas as URLs das imagens da história em ordem"""
+        images = []
+        pages = obj.pages_set.all().order_by('id')
+        for page in pages:
+            page_images = page.image_set.all().order_by('id')
+            for image in page_images:
+                images.append(image.url)
+        return images
+
+    def get_Pages(self, obj):
+        """Retorna uma lista com todas as páginas da história em ordem"""
+        pages = obj.pages_set.all().order_by('id')
+        return [page.page for page in pages]

@@ -12,7 +12,8 @@ from .serializers import (
     UpdateStoryPagesSerializer,
     MultipleImageGenerationSerializer,
     MultipleImageResponseSerializer,
-    StoryListSerializer
+    StoryListSerializer,
+    GetStoriesByIDSerializer
 )
 from core.models import Gender, Interest, StoryType, Request, Titles as TitleModel, Pages
 import os
@@ -387,6 +388,34 @@ class StoryGenerationView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
             
+class GetStoriesByID(APIView):
+    """View para obter uma história específica com todas as suas páginas e imagens."""
+    
+    def get(self, request, title_id):
+        """Retorna uma história específica com título, autor, todas as páginas e todas as imagens."""
+        try:
+            # Obtém o título com otimização de consultas
+            title = TitleModel.objects.select_related('request').prefetch_related(
+                'pages_set__image_set'
+            ).get(id=title_id)
+            
+            # Serializa os dados
+            serializer = GetStoriesByIDSerializer(title)
+            
+            # Retorna a resposta no formato solicitado
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        except TitleModel.DoesNotExist:
+            return Response(
+                {"error": f"Nenhuma história encontrada com o ID {title_id}"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": "Erro interno do servidor", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
 class UpdateStoryGenerationView(APIView):
     serializer_class = UpdateStoryPagesSerializer
     
