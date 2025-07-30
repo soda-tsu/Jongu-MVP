@@ -21,6 +21,7 @@ from openai import OpenAIError
 import requests
 import json
 from django.core.files.base import ContentFile
+from datetime import datetime
 
 
 
@@ -158,18 +159,32 @@ class MultipleImageGenerationView(APIView):
                     
                     img_response = requests.get(image_url)
                     if img_response.status_code == 200:
+                        import os
+                        from django.conf import settings
                         from core.models import Image
+                        from django.core.files.base import ContentFile
+
+                        image_filename = f"page_{page.id}_image_{index} {datetime.now()}.png"
+                        relative_path = os.path.join('generated_images', image_filename)
+                        full_path = os.path.join(settings.MEDIA_ROOT, relative_path)
+
+                        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+                        
+                        with open(full_path, 'wb') as f:
+                            f.write(img_response.content)
+
                         image_instance = Image(
-                            url=image_url,
+                            url=relative_path,
                             page=page
                         )
                         image_instance.save()
-                        
+
                         generated_images.append({
                             "page_id": page.id,
                             "page_index": index,
                             "page_content": page.page,
-                            "image_url": image_url,
+                            "image_url": request.build_absolute_uri(settings.MEDIA_URL + relative_path),
+                            "local_path": relative_path,
                             "image_id": image_instance.id,
                             "prompt_used": prompt
                         })
