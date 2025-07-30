@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Gender, Interest, StoryType
+from core.models import Gender, Interest, StoryType, Titles as TitleModel, Pages
 
 class ImageGenerationSerializer(serializers.Serializer):
     
@@ -127,6 +127,32 @@ class StoryResponseSerializer(serializers.Serializer):
     message = serializers.CharField(help_text="Mensagem de sucesso")
 
 
+class MultipleImageGenerationSerializer(serializers.Serializer):
+    title_id = serializers.IntegerField(
+        help_text="ID do título da história para gerar imagens",
+        required=True
+    )
+    size = serializers.ChoiceField(
+        choices=['256x256', '512x512', '1024x1024'],
+        default='1024x1024',
+        help_text="Tamanho das imagens a serem geradas (256x256, 512x512 ou 1024x1024)"
+    )
+
+    def validate_title_id(self, value):
+        if not TitleModel.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Título não encontrado com o ID fornecido")
+        return value
+
+
+class MultipleImageResponseSerializer(serializers.Serializer):
+    images = serializers.ListField(
+        child=serializers.DictField(),
+        help_text="Lista de imagens geradas com informações de cada página"
+    )
+    message = serializers.CharField(help_text="Mensagem de sucesso")
+    total_images = serializers.IntegerField(help_text="Total de imagens geradas")
+
+
 class UpdateStoryPagesSerializer(serializers.Serializer):
     title_id = serializers.IntegerField(
         help_text="ID do título da história a ser atualizada",
@@ -139,7 +165,6 @@ class UpdateStoryPagesSerializer(serializers.Serializer):
     )
 
     def validate_title_id(self, value):
-        from core.models import Titles as TitleModel
         if not TitleModel.objects.filter(id=value).exists():
             raise serializers.ValidationError("Título não encontrado com o ID fornecido")
         return value

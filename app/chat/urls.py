@@ -6,12 +6,14 @@ from .views import (
     DeleteImageView, 
     GetImageByIdView, 
     StoryGenerationView,
-    UpdateStoryGenerationView
+    UpdateStoryGenerationView,
+    MultipleImageGenerationView
 )
 
 urlpatterns = [
     path('chat/', ChatView.as_view(), name='chat'),
     path('generate-image/', ImageGenerationView.as_view(), name='generate-image'),
+    path('generate-multiple-images/', MultipleImageGenerationView.as_view(), name='generate-multiple-images'),
     path('generate-story/', StoryGenerationView.as_view(), name='generate-story'),
     path('generated-images/', GeneratedImagesListView.as_view(), name='generated-images'),
     path('delete-image/<int:image_id>/', DeleteImageView.as_view(), name='delete-image'),
