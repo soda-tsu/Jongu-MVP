@@ -5,3 +5,75 @@
   gap: 2.4rem;
   width: 80%;
 }
+
+.btnGrad {
+  background-image: linear-gradient(
+    to right,
+    #221d33 0%,
+    #4b3f72 51%,
+    #221d33 100%
+  );
+}
+.btnGrad {
+  display: flex;
+  gap: 1.6rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 2.4rem auto;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  font-size: 5rem;
+  cursor: pointer;
+}
+
+.btnGrad:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+  align-items: center;
+  background-color: transparent;
+  padding: 4rem 2rem;
+  border-radius: 1rem;
+}
+.loaderContainer h2 {
+  font-size: 4rem;
+  color: #4b3f72;
+}
+.loaderContainer p {
+  width: 70%;
+  text-align: center;
+  font-size: 2.4rem;
+  color: #4b3f72;
+}
+.successContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+  align-items: center;
+  font-size: 2.4rem;
+}
+.successContainer a {
+  text-decoration: none;
+  color: blue;
+}
+.successContainer p {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 60%;
+  text-align: center;
+  line-height: 190%;
+  color: #3e345c;
+}

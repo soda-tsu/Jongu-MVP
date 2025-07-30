@@ -8,7 +8,6 @@ import BookLoader from "../BookLoader/BookLoader";
 import BookPreview from "../BookPreview/BookPreview";
 
 function FormHistoryCreate() {
-  // TODO: Voltar isso para 1
   const [stepForm, setStepForm] = useState(1);
   const [title, setTitle] = useState("Quantos anos tem seu pequeno?");
   const [description, setDescription] = useState(
@@ -79,7 +78,9 @@ function FormHistoryCreate() {
         }),
       });
     }
-    update();
+    if (data) {
+      update();
+    }
   }, [editPayload]);
 
   useEffect(() => {
