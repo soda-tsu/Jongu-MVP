@@ -31,7 +31,16 @@ function FormHistoryCreate() {
   const [authorHistory, setAuthorHistory] = useState("");
   const [characterDetail, setCharacterDetail] = useState("");
   const [lesson, setLesson] = useState("");
+  // TODO: Jogar para null esse depois
+  const [editPayload, setEditPayload] = useState({
+    pages: [
+      "Era uma vez uma princesa loira chamada Sofia. Ela adorava ajudar no reino e aprender coisas novas.",
+      "Sofia trabalhava no jardim, cuidando das flores. As borboletas dançavam e as aves cantavam felizes ao seu redor.",
+      "Um dia, Sofia encontrou um mapa mágico. Juntas, ela e suas amigas partiram em uma aventura incrível pelo reino!",
+    ],
+  });
 
+  // TODO: Jogar para null esse depois
   // Variável para segurar o data retornado
   const [data, setData] = useState({
     pages: [
@@ -65,8 +74,25 @@ function FormHistoryCreate() {
     if (data) {
       setStepForm(10);
       setData(data);
+      setEditPayload(data.pages);
     }
   }
+
+  useEffect(() => {
+    async function update() {
+      await fetch("http://localhost:8000/chat/update-story/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title_id: 1,
+          pages: editPayload,
+        }),
+      });
+    }
+    update();
+  }, [editPayload]);
 
   useEffect(() => {
     switch (stepForm) {
@@ -513,7 +539,13 @@ function FormHistoryCreate() {
           )}
         </form>
       )}
-      {stepForm === 10 && <BookPreview data={data} />}
+      {stepForm === 10 && (
+        <BookPreview
+          data={data}
+          setEditPayload={setEditPayload && setEditPayload}
+          editPayload={editPayload}
+        />
+      )}
     </>
   );
 }
