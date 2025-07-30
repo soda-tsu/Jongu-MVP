@@ -11,7 +11,8 @@ from .serializers import (
     StoryResponseSerializer,
     UpdateStoryPagesSerializer,
     MultipleImageGenerationSerializer,
-    MultipleImageResponseSerializer
+    MultipleImageResponseSerializer,
+    StoryListSerializer
 )
 from core.models import Gender, Interest, StoryType, Request, Titles as TitleModel, Pages
 import os
@@ -36,6 +37,23 @@ try:
 except Exception as e:
     print(f"Erro ao configurar OpenAI: {str(e)}")
     raise
+
+class StoryListView(APIView):
+    """View para listar todas as histórias com título, autor e primeira imagem."""
+    
+    def get(self, request):
+        """Retorna todas as histórias com título, autor e primeira imagem."""
+        # Obtém todos os títulos com otimização de consultas
+        titles = TitleModel.objects.select_related('request').prefetch_related(
+            'pages_set__image_set'
+        ).order_by('-created_datetime')
+        
+        # Serializa os dados
+        serializer = StoryListSerializer(titles, many=True)
+        
+        # Retorna a resposta no formato solicitado
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class ChatView(APIView):
     def post(self, request):
@@ -352,7 +370,8 @@ class StoryGenerationView(APIView):
             
             response_data = {
                 "pages": pages_list,
-                "message": "História gerada e salva com sucesso"
+                "message": "História gerada e salva com sucesso",
+                "title_id": title_instance.id
             }
             
             return Response(response_data, status=status.HTTP_201_CREATED)
