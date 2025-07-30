@@ -2,13 +2,14 @@ from django.urls import path
 from .views import (
     ChatView, 
     ImageGenerationView, 
+    StoryGenerationView, 
     GeneratedImagesListView, 
-    DeleteImageView, 
     GetImageByIdView, 
-    StoryGenerationView,
-    UpdateStoryGenerationView,
+    DeleteImageView, 
     MultipleImageGenerationView,
-    StoryListView
+    UpdateStoryGenerationView,
+    StoryListView,
+    GetStoriesByID
 )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     # path('get-image-by-id/<int:image_id>/', GetImageByIdView.as_view(), name='get-image-by-id'),
     path('update-story/', UpdateStoryGenerationView.as_view(), name='update-story'),
     path('stories/', StoryListView.as_view(), name='story-list'),
+    path('stories/<int:title_id>/', GetStoriesByID.as_view(), name='get-stories-by-id'),
 ]
