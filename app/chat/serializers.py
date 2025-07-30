@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from core.models import Gender, Interest, StoryType, Titles as TitleModel, Pages
+from rest_framework.serializers import ModelSerializer
+from core.models import Gender, Interest, StoryType, Titles as TitleModel, Pages, Image, Request
 
 class ImageGenerationSerializer(serializers.Serializer):
     
@@ -168,3 +169,25 @@ class UpdateStoryPagesSerializer(serializers.Serializer):
         if not TitleModel.objects.filter(id=value).exists():
             raise serializers.ValidationError("Título não encontrado com o ID fornecido")
         return value
+
+
+class StoryListSerializer(serializers.ModelSerializer):
+    title_id = serializers.IntegerField(source='id')
+    Title = serializers.CharField(source='title')
+    Author = serializers.CharField(source='request.author')
+    Image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TitleModel
+        fields = ['title_id', 'Title', 'Author', 'Image']
+
+    def get_Image(self, obj):
+        """Retorna a URL da primeira imagem da primeira página da história"""
+        # Pega a primeira página da história
+        first_page = obj.pages_set.first()
+        if first_page:
+            # Pega a primeira imagem da primeira página
+            first_image = first_page.image_set.first()
+            if first_image:
+                return first_image.url
+        return None
