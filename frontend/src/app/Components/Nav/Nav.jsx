@@ -13,7 +13,7 @@ function Nav() {
 
         <ul className={styles.navList}>
           <li>
-            <Link href="/Books">
+            <Link href="/">
               <Image
                 src="/create.svg"
                 alt="ReadPage"
@@ -23,7 +23,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link href="/About">
+            <Link href="/Leitura">
               <Image
                 src="/read.svg"
                 alt="AboutPage"

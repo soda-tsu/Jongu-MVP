@@ -16,10 +16,6 @@ function Books() {
     fetchBooks();
   }, []);
 
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
-
   return (
     <div className="Container">
       {books.map((book) => (

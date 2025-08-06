@@ -35,7 +35,16 @@ function StoryPage({
   return (
     <div className={styles.storyPage}>
       <div className={styles.imageContainer}>
-        {image ? <Image /> : <ImagePlaceholder pageIndex={pageIndex} />}
+        {image ? (
+          <Image
+            src={`http://localhost:8000/media/${image}`}
+            alt={image}
+            width={500}
+            height={500}
+          />
+        ) : (
+          <ImagePlaceholder pageIndex={pageIndex} />
+        )}
       </div>
       <div className={styles.textContainer}>
         {text && edit ? (
